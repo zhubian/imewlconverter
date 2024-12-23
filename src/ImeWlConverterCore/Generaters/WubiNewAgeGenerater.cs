@@ -16,7 +16,6 @@
  */
 
 using System.Collections.Generic;
-using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters

@@ -29,7 +29,6 @@ namespace Studyzy.IMEWLConverter.Generaters
     {
         private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
 
-
         public override IList<string> GetAllCodesOfChar(char str)
         {
             return PinyinHelper.GetPinYinWithToneOfChar(str);
@@ -46,9 +45,8 @@ namespace Studyzy.IMEWLConverter.Generaters
                 {
                     result.Add(PinyinHelper.AddToneToPinyin(str[i], p));
                 }
-              
             }
-            return new Code( result,true);
+            return new Code(result, true);
         }
 
         public override void GetCodeOfWordLibrary(WordLibrary wl)
@@ -59,20 +57,18 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             if (wl.CodeType == CodeType.Pinyin) //如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
             {
-
                 for (int i = 0; i < wl.Codes.Count; i++)
                 {
                     var row = wl.Codes[i];
                     for (int j = 0; j < row.Count; j++)
                     {
                         string s = row[j];
-                        string py =PinyinHelper.AddToneToPinyin(wl.Word[i], s); //add tone
+                        string py = PinyinHelper.AddToneToPinyin(wl.Word[i], s); //add tone
                         wl.Codes[i][j] = py;
                     }
                 }
 
-               
-                return ;
+                return;
             }
             base.GetCodeOfWordLibrary(wl);
         }

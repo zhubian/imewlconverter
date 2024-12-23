@@ -39,7 +39,7 @@ namespace Studyzy.IMEWLConverter
         {
             if (rbtnDefault.Checked)
             {
-                wordRankGenerater = new DefaultWordRankGenerater {Rank = (int) numRank.Value};
+                wordRankGenerater = new DefaultWordRankGenerater { Rank = (int)numRank.Value };
             }
             else if (rbtnGoogle.Checked)
             {

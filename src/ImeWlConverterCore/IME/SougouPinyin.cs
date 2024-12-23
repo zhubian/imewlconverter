@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -36,7 +35,6 @@ namespace Studyzy.IMEWLConverter.IME
 
             return str;
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {
@@ -63,7 +61,9 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message + " Your system doesn't support GBK, try to use GB2312.");
+                    Console.WriteLine(
+                        ex.Message + " Your system doesn't support GBK, try to use GB2312."
+                    );
                     return Encoding.GetEncoding("GB2312");
                 }
             }
@@ -82,14 +82,13 @@ namespace Studyzy.IMEWLConverter.IME
                 var wl = new WordLibrary();
                 wl.Word = word;
                 wl.Rank = 1;
-                wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
+                wl.PinYin = py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries);
                 var wll = new WordLibraryList();
                 wll.Add(wl);
                 return wll;
             }
             return null;
         }
-
 
         #endregion
     }

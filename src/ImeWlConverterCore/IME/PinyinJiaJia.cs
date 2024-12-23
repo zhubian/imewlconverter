@@ -15,17 +15,15 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [ComboBoxShow(ConstantString.PINYIN_JIAJIA, ConstantString.PINYIN_JIAJIA_C, 120)]
     public class PinyinJiaJia : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
@@ -78,14 +76,13 @@ namespace Studyzy.IMEWLConverter.IME
 
         private readonly IWordCodeGenerater single = new PinyinGenerater();
 
-
         /// <summary>
         ///     形如：冷血xue动物
         ///     只有多音字才注音，一般的字不注音，就使用默认读音即可
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-     
+
         public override WordLibraryList ImportLine(string word)
         {
             string hz = "";

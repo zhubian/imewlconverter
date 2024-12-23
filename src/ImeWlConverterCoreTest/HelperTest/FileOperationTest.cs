@@ -16,7 +16,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -27,11 +26,11 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
 {
     class FileOperationTest
     {
-        [TestCase("Test/u8nobomzy.txt","UTF-8")]
+        [TestCase("Test/u8nobomzy.txt", "UTF-8")]
         [TestCase("Test/luna_pinyin_export.txt", "UTF-8")]
         [TestCase("Test/gbzy.txt", "GB18030")]
         [TestCase("Test/QQPinyin.txt", "Unicode")]
-        public void TestGetFileEncoding(string path,string encoding)
+        public void TestGetFileEncoding(string path, string encoding)
         {
             path = GetFullPath(path);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -40,13 +39,21 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
             var txt = FileOperationHelper.ReadFile(path);
             Debug.WriteLine(txt);
         }
+
         [Test]
         public void TestCodePagesEncodingProviderRequired()
         {
-            Assert.Catch(Type.GetType("System.ArgumentException"), () => Encoding.GetEncoding("GB2312").ToString());
+            Assert.Catch(
+                Type.GetType("System.ArgumentException"),
+                () => Encoding.GetEncoding("GB2312").ToString()
+            );
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Assert.AreEqual("Chinese Simplified (GB2312)", Encoding.GetEncoding("GB2312").EncodingName);
+            Assert.AreEqual(
+                "Chinese Simplified (GB2312)",
+                Encoding.GetEncoding("GB2312").EncodingName
+            );
         }
+
         [Test]
         public void TestWriteFile()
         {
@@ -56,6 +63,7 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
             Assert.IsTrue(File.Exists(path));
             File.Delete(path);
         }
+
         protected static string GetFullPath(string fileName)
         {
             return Path.Combine(TestContext.CurrentContext.TestDirectory, fileName);

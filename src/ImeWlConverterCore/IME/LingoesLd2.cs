@@ -108,7 +108,6 @@ namespace Studyzy.IMEWLConverter.IME
             return regex.IsMatch(str);
         }
 
-
         private IList<string> Parse(string ld2File)
         {
             using (var fs = new FileStream(ld2File, FileMode.Open, FileAccess.Read))
@@ -118,7 +117,9 @@ namespace Studyzy.IMEWLConverter.IME
                 string v = Encoding.ASCII.GetString(bs);
                 Debug.WriteLine("类型：" + v);
                 fs.Position = 0x18;
-                Debug.WriteLine("版本：" + BinFileHelper.ReadInt16(fs) + "." + BinFileHelper.ReadInt16(fs));
+                Debug.WriteLine(
+                    "版本：" + BinFileHelper.ReadInt16(fs) + "." + BinFileHelper.ReadInt16(fs)
+                );
                 Debug.WriteLine("ID: 0x" + (BinFileHelper.ReadInt64(fs).ToString("x")));
 
                 fs.Position = 0x5c;
@@ -147,7 +148,6 @@ namespace Studyzy.IMEWLConverter.IME
                     Debug.WriteLine("文件不包含字典数据。网上字典？");
                 }
 
-
                 return null;
             }
         }
@@ -163,7 +163,7 @@ namespace Studyzy.IMEWLConverter.IME
             int inflatedWordsIndexLength = BinFileHelper.ReadInt32(fs);
             int inflatedWordsLength = BinFileHelper.ReadInt32(fs);
             int inflatedXmlLength = BinFileHelper.ReadInt32(fs);
-            int definitions = (offsetCompressedDataHeader - offsetIndex)/4;
+            int definitions = (offsetCompressedDataHeader - offsetIndex) / 4;
             var deflateStreams = new List<int>();
             fs.Position = offsetCompressedDataHeader + 8;
             int offset = BinFileHelper.ReadInt32(fs);
@@ -177,20 +177,44 @@ namespace Studyzy.IMEWLConverter.IME
 
             //CountWord = definitions;
 
-            Debug.WriteLine("索引地址/大小：0x" + offsetIndex.ToString("x") + " / "
-                            + (offsetCompressedDataHeader - offsetIndex).ToString("x") + " B");
-            Debug.WriteLine("压缩数据地址/大小：0x" + (offsetCompressedData).ToString("x") + " / "
-                            + (limit - offsetCompressedData).ToString("x") + " B");
-            Debug.WriteLine("词组索引地址/大小（解压缩后）：0x0 / " + inflatedWordsIndexLength.ToString("x") + " B");
-            Debug.WriteLine("词组地址/大小（解压缩后）：0x" + (inflatedWordsIndexLength).ToString("x") + " / "
-                            + inflatedWordsLength.ToString("x") + " B");
-            Debug.WriteLine("XML地址/大小（解压缩后）：0x" + (inflatedWordsIndexLength + inflatedWordsLength).ToString("x")
-                            + " / " + inflatedXmlLength.ToString("x") + " B");
-            Debug.WriteLine("文件大小（解压缩后）：" + (inflatedWordsIndexLength + inflatedWordsLength + inflatedXmlLength)/1024
-                            + " KB");
+            Debug.WriteLine(
+                "索引地址/大小：0x"
+                    + offsetIndex.ToString("x")
+                    + " / "
+                    + (offsetCompressedDataHeader - offsetIndex).ToString("x")
+                    + " B"
+            );
+            Debug.WriteLine(
+                "压缩数据地址/大小：0x"
+                    + (offsetCompressedData).ToString("x")
+                    + " / "
+                    + (limit - offsetCompressedData).ToString("x")
+                    + " B"
+            );
+            Debug.WriteLine(
+                "词组索引地址/大小（解压缩后）：0x0 / " + inflatedWordsIndexLength.ToString("x") + " B"
+            );
+            Debug.WriteLine(
+                "词组地址/大小（解压缩后）：0x"
+                    + (inflatedWordsIndexLength).ToString("x")
+                    + " / "
+                    + inflatedWordsLength.ToString("x")
+                    + " B"
+            );
+            Debug.WriteLine(
+                "XML地址/大小（解压缩后）：0x"
+                    + (inflatedWordsIndexLength + inflatedWordsLength).ToString("x")
+                    + " / "
+                    + inflatedXmlLength.ToString("x")
+                    + " B"
+            );
+            Debug.WriteLine(
+                "文件大小（解压缩后）："
+                    + (inflatedWordsIndexLength + inflatedWordsLength + inflatedXmlLength) / 1024
+                    + " KB"
+            );
 
             byte[] inflatedFile = Inflate(fs, offsetCompressedData, deflateStreams);
-
 
             //fs.Position = offsetIndex;
             //var idxArray = new int[definitions];
@@ -200,8 +224,11 @@ namespace Studyzy.IMEWLConverter.IME
             //}
 
 
-            return Extract(inflatedFile, inflatedWordsIndexLength,
-                inflatedWordsIndexLength + inflatedWordsLength);
+            return Extract(
+                inflatedFile,
+                inflatedWordsIndexLength,
+                inflatedWordsIndexLength + inflatedWordsLength
+            );
         }
 
         #region 解压
@@ -235,12 +262,12 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var t = new List<byte>();
             var inflator = new Inflater();
-            Stream stream = CopyStream(data, offset, (int) length);
-            var in1 = new InflaterInputStream(stream, inflator, 1024*8);
+            Stream stream = CopyStream(data, offset, (int)length);
+            var in1 = new InflaterInputStream(stream, inflator, 1024 * 8);
 
-            var buffer = new byte[1024*8];
+            var buffer = new byte[1024 * 8];
             int len;
-            while ((len = in1.Read(buffer, 0, 1024*8)) > 0)
+            while ((len = in1.Read(buffer, 0, 1024 * 8)) > 0)
             {
                 for (int i = 0; i < len; i++)
                 {
@@ -329,11 +356,11 @@ namespace Studyzy.IMEWLConverter.IME
         private IList<string> Extract(byte[] dataRawBytes, int offsetDefs, int offsetXml)
         {
             int dataLen = 10;
-            int defTotal = offsetDefs/dataLen - 1;
+            int defTotal = offsetDefs / dataLen - 1;
             CountWord = defTotal;
             var words = new string[defTotal];
 #if DEBUG
-            StreamWriter sw=new StreamWriter("C:\\Temp\\灵格斯.txt",false);
+            StreamWriter sw = new StreamWriter("C:\\Temp\\灵格斯.txt", false);
 #endif
             //Encoding[] encodings = DetectEncodings(dataRawBytes, offsetDefs, offsetXml, defTotal, dataLen);
 
@@ -342,8 +369,15 @@ namespace Studyzy.IMEWLConverter.IME
             CurrentStatus = 0;
             for (int i = 0; i < defTotal; i++)
             {
-                KeyValuePair<string, string> kv = ReadDefinitionData(dataRawBytes, offsetDefs, offsetXml, dataLen,
-                    WordEncoding, XmlEncoding, i);
+                KeyValuePair<string, string> kv = ReadDefinitionData(
+                    dataRawBytes,
+                    offsetDefs,
+                    offsetXml,
+                    dataLen,
+                    WordEncoding,
+                    XmlEncoding,
+                    i
+                );
 
                 string word = kv.Key;
                 string xml = kv.Value;
@@ -356,7 +390,7 @@ namespace Studyzy.IMEWLConverter.IME
                     words[i] = word;
                 }
 #if DEBUG
-                sw.WriteLine(kv.Key+"\t"+kv.Value);
+                sw.WriteLine(kv.Key + "\t" + kv.Value);
 #endif
                 CurrentStatus++;
             }
@@ -379,12 +413,18 @@ namespace Studyzy.IMEWLConverter.IME
         /// <param name="xmlStringDecoder"></param>
         /// <param name="i"></param>
         /// <returns>Key为词汇，Value为解释</returns>
-        private KeyValuePair<string, string> ReadDefinitionData(byte[] inflatedBytes, int offsetWords,
-            int offsetXml, int dataLen, Encoding wordStringDecoder,
-            Encoding xmlStringDecoder, int i)
+        private KeyValuePair<string, string> ReadDefinitionData(
+            byte[] inflatedBytes,
+            int offsetWords,
+            int offsetXml,
+            int dataLen,
+            Encoding wordStringDecoder,
+            Encoding xmlStringDecoder,
+            int i
+        )
         {
             var idxData = new int[6];
-            GetIdxData(inflatedBytes, dataLen*i, idxData);
+            GetIdxData(inflatedBytes, dataLen * i, idxData);
             int lastWordPos = idxData[0];
             int lastXmlPos = idxData[1];
             int flags = idxData[2];
@@ -392,24 +432,36 @@ namespace Studyzy.IMEWLConverter.IME
             int currentWordOffset = idxData[4];
             int currenXmlOffset = idxData[5];
 
-
-            string xml = xmlStringDecoder.GetString(inflatedBytes, offsetXml + lastXmlPos, currenXmlOffset - lastXmlPos);
+            string xml = xmlStringDecoder.GetString(
+                inflatedBytes,
+                offsetXml + lastXmlPos,
+                currenXmlOffset - lastXmlPos
+            );
             while (refs-- > 0)
             {
                 int position = (offsetWords + lastWordPos);
                 int ref1 = BitConverter.ToInt32(inflatedBytes, position);
-                GetIdxData(inflatedBytes, dataLen*ref1, idxData);
+                GetIdxData(inflatedBytes, dataLen * ref1, idxData);
                 lastXmlPos = idxData[1];
                 currenXmlOffset = idxData[5];
                 if (string.IsNullOrEmpty(xml))
                 {
-                    xml = xmlStringDecoder.GetString(inflatedBytes, offsetXml + lastXmlPos, currenXmlOffset - lastXmlPos);
+                    xml = xmlStringDecoder.GetString(
+                        inflatedBytes,
+                        offsetXml + lastXmlPos,
+                        currenXmlOffset - lastXmlPos
+                    );
                 }
                 else
                 {
                     xml =
-                        xmlStringDecoder.GetString(inflatedBytes, offsetXml + lastXmlPos, currenXmlOffset - lastXmlPos) +
-                        ", " + xml;
+                        xmlStringDecoder.GetString(
+                            inflatedBytes,
+                            offsetXml + lastXmlPos,
+                            currenXmlOffset - lastXmlPos
+                        )
+                        + ", "
+                        + xml;
                 }
                 lastWordPos += 4;
             }
@@ -417,12 +469,15 @@ namespace Studyzy.IMEWLConverter.IME
 
             int position1 = offsetWords + lastWordPos;
 
-            byte[] w = BinFileHelper.ReadArray(inflatedBytes, position1, currentWordOffset - lastWordPos);
+            byte[] w = BinFileHelper.ReadArray(
+                inflatedBytes,
+                position1,
+                currentWordOffset - lastWordPos
+            );
             string word = wordStringDecoder.GetString(w);
             //defData[0] = word;
             return new KeyValuePair<string, string>(word, xml);
         }
-
 
         private void GetIdxData(byte[] dataRawBytes, int position, int[] wordIdxData)
         {

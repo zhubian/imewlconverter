@@ -15,9 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-using System.Windows;
-
 namespace Studyzy.IMEWLConverter
 {
     /// <summary>
@@ -25,11 +22,14 @@ namespace Studyzy.IMEWLConverter
     /// </summary>
     public class ConstantString
     {
+        public const string VERSION = "3.2.0.0";
+
         public const string BAIDU_SHOUJI = "百度手机或Mac版百度拼音";
         public const string BAIDU_SHOUJI_ENG = "百度手机英文";
         public const string BAIDU_BDICT = "百度分类词库bdict";
         public const string BAIDU_BCD = "百度手机词库bcd";
         public const string BAIDU_PINYIN = "百度拼音";
+        public const string BAIDU_PINYIN_BACKUP = "百度拼音备份词库bin";
         public const string QQ_PINYIN_ENG = "QQ拼音英文";
         public const string QQ_SHOUJI = "QQ手机";
         public const string QQ_WUBI = "QQ五笔";
@@ -59,28 +59,33 @@ namespace Studyzy.IMEWLConverter
         public const string JIDIAN_MBDICT = "极点五笔.mb文件";
         public const string XIAOYA_WUBI = "小鸭五笔";
         public const string MS_PINYIN = "微软拼音";
-        public const string WIN10_MS_PINYIN = "Win10微软拼音（自定义短语）";
-        public const string WIN10_MS_PINYIN_SELF_STUDY = "Win10微软拼音（自学习词库）";
+        public const string WIN10_MS_PINYIN = "Win10微软拼音（用户自定义短语）";
+        public const string WIN10_MS_PINYIN_SELF_STUDY = "Win10微软拼音（自学习词汇）";
 
-        public const string WIN10_MS_WUBI = "Win10微软五笔（自定义短语）";
+        public const string WIN10_MS_WUBI = "Win10微软五笔（用户自定义短语）";
         public const string XIAOXIAO = "小小输入法";
         public const string XIAOXIAO_ERBI = "二笔输入法";
         public const string FIT = "FIT输入法";
         public const string RIME = "Rime中州韵";
+        public const string RIME_USERDB = "Rime UserDb 用户词典";
         public const string CANGJIE_PLATFORM = "仓颉平台";
         public const string BING_PINYIN = "必应输入法";
         public const string LINGOES_LD2 = "灵格斯ld2";
         public const string USER_PHRASE = "用户自定义短语";
         public const string SHOUXIN_PINYIN = "手心输入法";
-		public const string CHAO_YIN="超音速录";
+        public const string CHAO_YIN = "超音速录";
         public const string CHINESE_PYIM = "Chinese-pyim";
         public const string EMOJI = "Emoji";
         public const string MAC_PLIST = "Mac简体拼音";
+        public const string LIBIME_TEXT = "LibIME 拼音词库（文本格式）";
+
         //简码，控制台用
         public const string BAIDU_SHOUJI_C = "bdsj";
         public const string BAIDU_SHOUJI_ENG_C = "bdsje";
         public const string BAIDU_BDICT_C = "bdict";
         public const string BAIDU_BCD_C = "bcd";
+        public const string BAIDU_PINYIN_C = "bdpy";
+        public const string BAIDU_PINYIN_BACKUP_C = "bdpybin";
         public const string QQ_SHOUJI_C = "qqsj";
         public const string QQ_WUBI_C = "qqwb";
         public const string TOUCH_PAL_C = "cbsj";
@@ -111,9 +116,9 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOXIAO_C = "xiaoxiao";
         public const string FIT_C = "fit";
         public const string RIME_C = "rime";
+        public const string RIME_USERDB_C = "rimedb";
         public const string BING_PINYIN_C = "bing";
         public const string LINGOES_LD2_C = "ld2";
-        public const string BAIDU_PINYIN_C = "bdpy";
         public const string QQ_PINYIN_ENG_C = "qqpye";
         public const string XIAOYA_WUBI_C = "xywb";
         public const string CANGJIE_PLATFORM_C = "cjpt";
@@ -123,10 +128,10 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOXIAO_ERBI_C = "erbi";
         public const string LIBPINYIN_C = "libpy";
         public const string SHOUXIN_PINYIN_C = "sxpy";
-		public const string CHAO_YIN_C="cysl";
+        public const string CHAO_YIN_C = "cysl";
         public const string CHINESE_PYIM_C = "pyim";
         public const string EMOJI_C = "emoji";
         public const string MAC_PLIST_C = "plist";
-
+        public const string LIBIME_TEXT_C = "libimetxt";
     }
 }

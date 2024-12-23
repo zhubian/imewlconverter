@@ -16,12 +16,7 @@
  */
 
 using System;
-using System.ComponentModel;
-using System.IO;
-using System.Net;
-using System.Text;
 using NUnit.Framework;
-using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter.Test
@@ -29,7 +24,6 @@ namespace Studyzy.IMEWLConverter.Test
     [TestFixture]
     internal class QQPinyinQcelTest : BaseTest
     {
-
         [OneTimeSetUp]
         public override void InitData()
         {
@@ -44,11 +38,15 @@ namespace Studyzy.IMEWLConverter.Test
         [TestCase]
         public void TestImportLine()
         {
-            Assert.Catch(() =>
-            {
-                importer.ImportLine("test");
-            }, "Qcel格式是二进制文件，不支持流转换");
+            Assert.Catch(
+                () =>
+                {
+                    importer.ImportLine("test");
+                },
+                "Qcel格式是二进制文件，不支持流转换"
+            );
         }
+
         [TestCase("星际战甲.qcel")]
         public void TestImportQcelWithAlphabet(string filePath)
         {
@@ -64,6 +62,7 @@ namespace Studyzy.IMEWLConverter.Test
             Assert.AreEqual(lib[2].Word, "阿卡塔");
             Assert.AreEqual(lib[3].Word, "阿卡塔riv外观");
         }
+
         [TestCase("星际战甲.qcel")]
         public void TestListQcelInfo(string filePath)
         {

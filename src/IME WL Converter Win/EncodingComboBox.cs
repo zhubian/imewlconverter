@@ -16,7 +16,6 @@
  */
 
 using System;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -30,19 +29,23 @@ namespace Studyzy.IMEWLConverter
         {
             if (!isInit)
             {
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                System.Text.Encoding.RegisterProvider(
+                    System.Text.CodePagesEncodingProvider.Instance
+                );
 
                 Items.Clear();
-                Items.AddRange(new object[]
-                {
-                    "Unicode",
-                    "UTF-8",
-                    "GB18030",
-                    "GBK",
-                    "Big5",
-                    "UnicodeFFFE",
-                    "ASCII"
-                });
+                Items.AddRange(
+                    new object[]
+                    {
+                        "Unicode",
+                        "UTF-8",
+                        "GB18030",
+                        "GBK",
+                        "Big5",
+                        "UnicodeFFFE",
+                        "ASCII"
+                    }
+                );
                 Text = "UTF-8";
                 isInit = true;
             }
@@ -60,7 +63,8 @@ namespace Studyzy.IMEWLConverter
                 {
                     return Encoding.GetEncoding(Text);
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     MessageBox.Show(ex.Message, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return Encoding.Default;
                 }

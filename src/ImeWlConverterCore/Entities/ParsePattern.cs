@@ -17,7 +17,6 @@
 
 using System.Collections.Generic;
 using System.Text;
-using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Entities
@@ -27,17 +26,16 @@ namespace Studyzy.IMEWLConverter.Entities
     /// </summary>
     public class ParsePattern
     {
-
         public ParsePattern()
         {
-            Sort = new List<int> {1, 2, 3};
+            Sort = new List<int> { 1, 2, 3 };
             CodeType = CodeType.Pinyin;
             IsPinyinFormat = true;
             LineSplitString = "\r\n";
             TextEncoding = Encoding.Default;
             ContainCode = true;
             ContainRank = true;
-            CodeSplitType=BuildType.None;
+            CodeSplitType = BuildType.None;
         }
 
         /// <summary>
@@ -126,8 +124,11 @@ namespace Studyzy.IMEWLConverter.Entities
             {
                 if (IsPinyinFormat)
                 {
-                    code = CollectionHelper.GetString(CollectionHelper.DescarteIndex1(wl.Codes), CodeSplitString,
-                        CodeSplitType);
+                    code = CollectionHelper.GetString(
+                        CollectionHelper.DescarteIndex1(wl.Codes),
+                        CodeSplitString,
+                        CodeSplitType
+                    );
                 }
                 else //多字一码，根据用户设置的编码规则，生成编码
                 {

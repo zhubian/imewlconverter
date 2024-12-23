@@ -15,29 +15,25 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
+using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Studyzy.IMEWLConverter.IME
 {
-    public abstract class BaseTextImport:BaseImport
+    public abstract class BaseTextImport : BaseImport
     {
         public abstract WordLibraryList ImportLine(string line);
-        public abstract Encoding Encoding
-        {
-            get;
-        }
+        public abstract Encoding Encoding { get; }
+
         public WordLibraryList Import(string path)
         {
             string str = FileOperationHelper.ReadFile(path);
             return ImportText(str);
         }
-        protected virtual  bool IsContent(string line)
+
+        protected virtual bool IsContent(string line)
         {
             return true;
         }
@@ -45,7 +41,7 @@ namespace Studyzy.IMEWLConverter.IME
         public WordLibraryList ImportText(string str)
         {
             var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] { "\r","\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = str.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             CountWord = lines.Length;
             for (int i = 0; i < lines.Length; i++)
             {

@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -30,13 +31,18 @@ using Studyzy.IMEWLConverter.IME;
 namespace Studyzy.IMEWLConverter
 {
     public delegate void ShowHelp(List<ComboBoxShowAttribute> cbxImportItems);
+
     public class ConsoleRun
     {
-        private readonly List<ComboBoxShowAttribute> cbxExportItems = new List<ComboBoxShowAttribute>();
-        private readonly List<ComboBoxShowAttribute> cbxImportItems = new List<ComboBoxShowAttribute>();
-        private readonly IDictionary<string, IWordLibraryExport> exports = new Dictionary<string, IWordLibraryExport>();
+        private readonly List<ComboBoxShowAttribute> cbxExportItems =
+            new List<ComboBoxShowAttribute>();
+        private readonly List<ComboBoxShowAttribute> cbxImportItems =
+            new List<ComboBoxShowAttribute>();
+        private readonly IDictionary<string, IWordLibraryExport> exports =
+            new Dictionary<string, IWordLibraryExport>();
         private readonly List<string> importPaths = new List<string>();
-        private readonly IDictionary<string, IWordLibraryImport> imports = new Dictionary<string, IWordLibraryImport>();
+        private readonly IDictionary<string, IWordLibraryImport> imports =
+            new Dictionary<string, IWordLibraryImport>();
         private readonly ParsePattern pattern = new ParsePattern();
         private bool beginImportFile;
         private string codingFile;
@@ -48,10 +54,11 @@ namespace Studyzy.IMEWLConverter
         private IWordLibraryImport wordLibraryImport;
         private Encoding xmlEncoding;
         private ShowHelp showHelp;
-        private IWordRankGenerater wordRankGenerater= new DefaultWordRankGenerater();
+        private IWordRankGenerater wordRankGenerater = new DefaultWordRankGenerater();
         private IList<ISingleFilter> filters = new List<ISingleFilter>();
 
-        public ConsoleRun(string[] args,ShowHelp showHelp)
+        [RequiresUnreferencedCode("Calls LoadImeList()")]
+        public ConsoleRun(string[] args, ShowHelp showHelp)
         {
             Args = args;
             this.showHelp = showHelp;
@@ -59,7 +66,7 @@ namespace Studyzy.IMEWLConverter
             pattern.SplitString = " ";
             pattern.CodeSplitString = ",";
             pattern.CodeSplitType = BuildType.None;
-            pattern.Sort = new List<int> {2, 1, 3};
+            pattern.Sort = new List<int> { 2, 1, 3 };
             pattern.ContainRank = false;
             LoadImeList();
         }
@@ -70,7 +77,7 @@ namespace Studyzy.IMEWLConverter
         {
             if (Args.Length == 0)
             {
-                Console.WriteLine("输入 -? 可获取帮助");
+                Console.WriteLine("输入 -h 可获取帮助");
                 return;
             }
             for (int i = 0; i < Args.Length; i++)
@@ -80,7 +87,9 @@ namespace Studyzy.IMEWLConverter
             }
             if (!string.IsNullOrEmpty(format))
             {
-                if ((!(wordLibraryExport is SelfDefining)) && (!(wordLibraryImport is SelfDefining)))
+                if (
+                    (!(wordLibraryExport is SelfDefining)) && (!(wordLibraryImport is SelfDefining))
+                )
                 {
                     Console.WriteLine("-f参数用于自定义格式时设置格式样式用，导入导出词库格式均不是自定义格式，该参数无效！");
                     return;
@@ -96,11 +105,11 @@ namespace Studyzy.IMEWLConverter
             }
             if (wordLibraryImport is SelfDefining)
             {
-                ((SelfDefining) wordLibraryImport).UserDefiningPattern = pattern;
+                ((SelfDefining)wordLibraryImport).UserDefiningPattern = pattern;
             }
             if (wordLibraryExport is SelfDefining)
             {
-                ((SelfDefining) wordLibraryExport).UserDefiningPattern = pattern;
+                ((SelfDefining)wordLibraryExport).UserDefiningPattern = pattern;
             }
             if (wordLibraryExport is Rime)
             {
@@ -109,7 +118,7 @@ namespace Studyzy.IMEWLConverter
             }
             if (wordLibraryImport is LingoesLd2)
             {
-                var ld2Import = ((LingoesLd2) wordLibraryImport);
+                var ld2Import = ((LingoesLd2)wordLibraryImport);
                 ld2Import.WordEncoding = wordEncoding;
                 if (xmlEncoding != null)
                 {
@@ -143,24 +152,24 @@ namespace Studyzy.IMEWLConverter
                 }
                 Console.WriteLine("转换完成,共转换" + mainBody.Count + "个");
             }
-            Console.WriteLine("输入 -? 可获取帮助");
+            Console.WriteLine("输入 -h 可获取帮助");
         }
 
         private void MainBody_ProcessNotice(string message)
         {
-            Console.WriteLine(DateTime.Now.ToString("HH:mm:ss")+"\t"+ message);
+            Console.WriteLine(DateTime.Now.ToString("HH:mm:ss") + "\t" + message);
         }
 
         private CommandType RunCommand(string command)
         {
-            if (command == "--help" || command == "-?")
+            if (command == "--help" || command == "-h")
             {
                 showHelp(this.cbxImportItems);
                 return CommandType.Help;
             }
             if (command == "--version" || command == "-v")
             {
-                Console.WriteLine("Version:"+ Assembly.GetExecutingAssembly().GetName().Version);
+                Console.WriteLine("Version:" + Assembly.GetExecutingAssembly().GetName().Version);
                 return CommandType.Help;
             }
             if (command.StartsWith("-i:"))
@@ -192,14 +201,15 @@ namespace Studyzy.IMEWLConverter
                 Regex rmRegex = new Regex(@"rm:(\w+)");
                 foreach (var filterStr in filterStrs.Split('|'))
                 {
-                   if (lenRegex.IsMatch(filterStr))
+                    if (lenRegex.IsMatch(filterStr))
                     {
                         var match = lenRegex.Match(filterStr);
                         var from = Convert.ToInt32(match.Groups[1].Value);
                         var to = Convert.ToInt32(match.Groups[2].Value);
                         var numberFilter = new LengthFilter() { MinLength = from, MaxLength = to };
                         this.filters.Add(numberFilter);
-                    }else if (rankRegex.IsMatch(filterStr))
+                    }
+                    else if (rankRegex.IsMatch(filterStr))
                     {
                         var match = rankRegex.Match(filterStr);
                         var from = Convert.ToInt32(match.Groups[1].Value);
@@ -214,15 +224,23 @@ namespace Studyzy.IMEWLConverter
                         ISingleFilter filter;
                         switch (rmType)
                         {
-                            case "eng":filter = new EnglishFilter();break;
-                            case "num":filter = new NumberFilter();break;
-                            case "space":filter = new SpaceFilter();break;
-                            case "pun":filter = new EnglishPunctuationFilter();break;
-                            default:throw new ArgumentException("Unsupport filter type:" + rmType);
-                        }                        
+                            case "eng":
+                                filter = new EnglishFilter();
+                                break;
+                            case "num":
+                                filter = new NumberFilter();
+                                break;
+                            case "space":
+                                filter = new SpaceFilter();
+                                break;
+                            case "pun":
+                                filter = new EnglishPunctuationFilter();
+                                break;
+                            default:
+                                throw new ArgumentException("Unsupport filter type:" + rmType);
+                        }
                         this.filters.Add(filter);
                     }
-
                 }
                 return CommandType.Coding;
             }
@@ -231,12 +249,24 @@ namespace Studyzy.IMEWLConverter
                 var codeType = command.Substring(4).ToLower();
                 switch (codeType)
                 {
-                    case "pinyin": pattern.CodeType = CodeType.Pinyin;break;
-                    case "wubi":pattern.CodeType = CodeType.Wubi;break;
-                    case "zhengma":pattern.CodeType = CodeType.Zhengma;break;
-                    case "cangjie":pattern.CodeType = CodeType.Cangjie;break;
-                    case "zhuyin":pattern.CodeType = CodeType.TerraPinyin;break;
-                    default:pattern.CodeType = CodeType.Pinyin;break;
+                    case "pinyin":
+                        pattern.CodeType = CodeType.Pinyin;
+                        break;
+                    case "wubi":
+                        pattern.CodeType = CodeType.Wubi;
+                        break;
+                    case "zhengma":
+                        pattern.CodeType = CodeType.Zhengma;
+                        break;
+                    case "cangjie":
+                        pattern.CodeType = CodeType.Cangjie;
+                        break;
+                    case "zhuyin":
+                        pattern.CodeType = CodeType.TerraPinyin;
+                        break;
+                    default:
+                        pattern.CodeType = CodeType.Pinyin;
+                        break;
                 }
                 return CommandType.CodeType;
             }
@@ -245,16 +275,23 @@ namespace Studyzy.IMEWLConverter
                 var rankType = command.Substring(3).ToLower();
                 switch (rankType)
                 {
-                    case "baidu": this.wordRankGenerater = new BaiduWordRankGenerater(); break;
-                    case "google": this.wordRankGenerater =new GoogleWordRankGenerater(); break;
-                   
-                    default: {
+                    case "baidu":
+                        this.wordRankGenerater = new BaiduWordRankGenerater();
+                        break;
+                    case "google":
+                        this.wordRankGenerater = new GoogleWordRankGenerater();
+                        break;
+
+                    default:
+
+                        {
                             var rankNumber = Convert.ToInt32(rankType);
                             var gen = new DefaultWordRankGenerater();
                             gen.ForceUse = true;
                             gen.Rank = rankNumber;
                             this.wordRankGenerater = gen;
-                    } break;
+                        }
+                        break;
                 }
                 return CommandType.CodeType;
             }
@@ -263,12 +300,20 @@ namespace Studyzy.IMEWLConverter
                 var os = command.Substring(4).ToLower();
                 switch (os)
                 {
-                    case "windows": pattern.OS = OperationSystem.Windows; break;
+                    case "windows":
+                        pattern.OS = OperationSystem.Windows;
+                        break;
                     case "mac":
-                    case "macos": pattern.OS = OperationSystem.MacOS; break;
+                    case "macos":
+                        pattern.OS = OperationSystem.MacOS;
+                        break;
                     case "linux":
-                    case "unix": pattern.OS = OperationSystem.Linux; break;
-                    default: pattern.OS = OperationSystem.Windows; break;
+                    case "unix":
+                        pattern.OS = OperationSystem.Linux;
+                        break;
+                    default:
+                        pattern.OS = OperationSystem.Windows;
+                        break;
                 }
                 return CommandType.OS;
             }
@@ -300,10 +345,14 @@ namespace Studyzy.IMEWLConverter
                 pattern.SplitString = format[4].ToString();
                 string t = format[5].ToString().ToLower();
                 beginImportFile = false;
-                if (t == "l") pattern.CodeSplitType = BuildType.LeftContain;
-                if (t == "r") pattern.CodeSplitType = BuildType.RightContain;
-                if (t == "b") pattern.CodeSplitType = BuildType.FullContain;
-                if (t == "n") pattern.CodeSplitType = BuildType.None;
+                if (t == "l")
+                    pattern.CodeSplitType = BuildType.LeftContain;
+                if (t == "r")
+                    pattern.CodeSplitType = BuildType.RightContain;
+                if (t == "b")
+                    pattern.CodeSplitType = BuildType.FullContain;
+                if (t == "n")
+                    pattern.CodeSplitType = BuildType.None;
                 pattern.ContainCode = (format[6].ToString().ToLower() == "y");
                 pattern.ContainRank = (format[8].ToString().ToLower() == "y");
                 return CommandType.Format;
@@ -311,7 +360,7 @@ namespace Studyzy.IMEWLConverter
 
             if (beginImportFile)
             {
-                importPaths.AddRange(FileOperationHelper.GetFilesPath( command));
+                importPaths.AddRange(FileOperationHelper.GetFilesPath(command));
             }
             if (type == CommandType.Export)
             {
@@ -320,17 +369,20 @@ namespace Studyzy.IMEWLConverter
             return CommandType.Other;
         }
 
+        [RequiresUnreferencedCode("Calls System.Reflection.Assembly.GetTypes()")]
         private void LoadImeList()
         {
             Assembly assembly = GetType().Assembly;
             Type[] d = assembly.GetTypes();
 
-
             foreach (Type type in d)
             {
-                if (type.Namespace != null && type.Namespace.StartsWith("Studyzy.IMEWLConverter.IME"))
+                if (
+                    type.Namespace != null
+                    && type.Namespace.StartsWith("Studyzy.IMEWLConverter.IME")
+                )
                 {
-                    object[] att = type.GetCustomAttributes(typeof (ComboBoxShowAttribute), false);
+                    object[] att = type.GetCustomAttributes(typeof(ComboBoxShowAttribute), false);
                     if (att.Length > 0)
                     {
                         var cbxa = att[0] as ComboBoxShowAttribute;
@@ -340,13 +392,19 @@ namespace Studyzy.IMEWLConverter
                         {
                             Debug.WriteLine("Import!!!!" + type.FullName);
                             cbxImportItems.Add(cbxa);
-                            imports.Add(cbxa.ShortCode, assembly.CreateInstance(type.FullName) as IWordLibraryImport);
+                            imports.Add(
+                                cbxa.ShortCode,
+                                assembly.CreateInstance(type.FullName) as IWordLibraryImport
+                            );
                         }
                         if (type.GetInterface("IWordLibraryExport") != null)
                         {
                             Debug.WriteLine("Export!!!!" + type.FullName);
                             cbxExportItems.Add(cbxa);
-                            exports.Add(cbxa.ShortCode, assembly.CreateInstance(type.FullName) as IWordLibraryExport);
+                            exports.Add(
+                                cbxa.ShortCode,
+                                assembly.CreateInstance(type.FullName) as IWordLibraryExport
+                            );
                         }
                     }
                 }
@@ -379,7 +437,6 @@ namespace Studyzy.IMEWLConverter
             }
         }
 
-     
         #region Nested type: CommandType
 
         private enum CommandType
@@ -388,8 +445,10 @@ namespace Studyzy.IMEWLConverter
             Export,
             Help,
             Null,
+
             //编码映射文件
             Coding,
+
             //编码类型
             CodeType,
             Format,

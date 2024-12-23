@@ -22,7 +22,7 @@ using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-    public class ZhengmaGenerater : BaseCodeGenerater,IWordCodeGenerater
+    public class ZhengmaGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
         private Dictionary<char, Zhengma> zhengmaDic;
 
@@ -35,7 +35,12 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string txt = Helpers.DictionaryHelper.GetResourceContent("Zhengma.txt");
 
                     zhengmaDic = new Dictionary<char, Zhengma>();
-                    foreach (string line in txt.Split(new[] {"\r","\n"}, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (
+                        string line in txt.Split(
+                            new[] { "\r", "\n" },
+                            StringSplitOptions.RemoveEmptyEntries
+                        )
+                    )
                     {
                         string[] arr = line.Split('\t');
                         if (arr[0].Length == 0)
@@ -53,7 +58,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                                 codes.Add(code);
                             }
                         }
-                        zhengmaDic.Add(word, new Zhengma {ShortCode = shortCode, Code = codes});
+                        zhengmaDic.Add(word, new Zhengma { ShortCode = shortCode, Code = codes });
                     }
                 }
                 return zhengmaDic;
@@ -62,7 +67,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         #region IWordCodeGenerater Members
 
-        public override  Code GetCodeOfString(string str)
+        public override Code GetCodeOfString(string str)
         {
             foreach (char c in str)
             {
@@ -74,7 +79,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
             if (str.Length == 1)
             {
-                return new Code(ZhengmaDic[str[0]].Code,false);
+                return new Code(ZhengmaDic[str[0]].Code, false);
             }
             var codes = new StringBuilder();
             if (str.Length == 2) //二字词组 2+2
@@ -95,7 +100,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 codes.Append(Get1Code(str[2]));
                 codes.Append(Get1Code(str[3]));
             }
-          
+
             return new Code(codes.ToString());
         }
 
@@ -103,7 +108,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return ZhengmaDic[str].Code;
         }
-
 
         public bool Is1CharMutiCode
         {
@@ -118,7 +122,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         #endregion
 
 
-       
+
 
         #region Nested type: Zhengma
 
@@ -147,6 +151,5 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return ZhengmaDic[c].ShortCode[0].ToString();
         }
-
     }
 }

@@ -179,8 +179,8 @@ namespace Studyzy.IMEWLConverter.IME
                 pinyinList.Add(Shengmu[temp[0]] + Yunmu[temp[1]]);
             }
             wordLibrary.PinYin = pinyinList.ToArray();
-            temp = new byte[2*len];
-            fs.Read(temp, 0, 2*len);
+            temp = new byte[2 * len];
+            fs.Read(temp, 0, 2 * len);
             wordLibrary.Word = Encoding.Unicode.GetString(temp);
             //for (var i = 0; i < wordLibrary.Word.Length;i++ )
             //{

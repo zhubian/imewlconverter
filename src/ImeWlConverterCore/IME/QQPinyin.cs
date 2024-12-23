@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -51,7 +50,6 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(wl.Rank);
             return sb.ToString();
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {
@@ -96,11 +94,10 @@ namespace Studyzy.IMEWLConverter.IME
             var wl = new WordLibrary();
             wl.Word = word;
             wl.Rank = count;
-            wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
+            wl.PinYin = py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
             wll.Add(wl);
             return wll;
         }
-
     }
 }

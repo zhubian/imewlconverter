@@ -61,7 +61,7 @@ namespace Studyzy.IMEWLConverter.IME
             var wl = new WordLibrary();
             wl.Word = word;
             wl.Rank = count;
-            wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
+            wl.PinYin = py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
             if (!string.IsNullOrEmpty(py))
             {
@@ -84,7 +84,6 @@ namespace Studyzy.IMEWLConverter.IME
 
             fs.Position = startAddress;
             var zipStream = new InflaterInputStream(fs);
-
 
             int bufferSize = 2048; //缓冲区大小
             int readCount = 0; //读入缓冲区的实际字节

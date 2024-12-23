@@ -30,7 +30,6 @@ namespace Studyzy.IMEWLConverter.IME
             get { return Encoding.UTF8; }
         }
 
-
         public override WordLibraryList ImportLine(string line)
         {
             if (line.Length == 0 || line[0] == '#')
@@ -61,14 +60,18 @@ namespace Studyzy.IMEWLConverter.IME
 
             const int MAX_COUNT = 16000;
             var result = new List<string>();
-            int fileCount = (int) Math.Ceiling(1.0*wlList.Count/MAX_COUNT);
+            int fileCount = (int)Math.Ceiling(1.0 * wlList.Count / MAX_COUNT);
             for (int count = 1; count <= fileCount; count++)
             {
                 var sb = new StringBuilder();
                 int rowCount = 0;
-                for (int i = 0; i < (count == fileCount ? wlList.Count%MAX_COUNT : MAX_COUNT); i++)
+                for (
+                    int i = 0;
+                    i < (count == fileCount ? wlList.Count % MAX_COUNT : MAX_COUNT);
+                    i++
+                )
                 {
-                    var wl = wlList[(count-1)*MAX_COUNT+i];
+                    var wl = wlList[(count - 1) * MAX_COUNT + i];
                     if (wl.Word.Length > 1 && wl.Word.Length < 17)
                     {
                         sb.Append(wl.Word);
@@ -81,6 +84,5 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return result;
         }
-
     }
 }

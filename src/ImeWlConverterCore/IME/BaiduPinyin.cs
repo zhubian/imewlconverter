@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -33,6 +32,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get { return Encoding.Unicode; }
         }
+
         #region IWordLibraryImport 成员
 
         public override WordLibraryList ImportLine(string line)
@@ -49,7 +49,7 @@ namespace Studyzy.IMEWLConverter.IME
             else
             {
                 string py = line.Split('\t')[1];
-                wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
+                wl.PinYin = py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries);
                 wl.Rank = Convert.ToInt32(array[2]);
             }
 
@@ -62,7 +62,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-        public  string ExportLine(WordLibrary wl)
+        public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
 
@@ -76,7 +76,6 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(wl.Rank);
             return sb.ToString();
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {

@@ -47,21 +47,26 @@ namespace Studyzy.IMEWLConverter
             }
             if (!File.Exists(txbFilePath.Text))
             {
-                MessageBox.Show(txbFilePath.Text + "，该文件不存在", "分割", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    txbFilePath.Text + "，该文件不存在",
+                    "分割",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
             rtbLogs.Clear();
             if (rbtnSplitByLine.Checked)
             {
-                SplitFileByLine((int) numdMaxLine.Value);
+                SplitFileByLine((int)numdMaxLine.Value);
             }
             else if (rbtnSplitBySize.Checked)
             {
-                SplitFileBySize((int) numdMaxSize.Value);
+                SplitFileBySize((int)numdMaxSize.Value);
             }
             else
             {
-                SplitFileByLength((int) numdMaxLength.Value);
+                SplitFileByLength((int)numdMaxLength.Value);
             }
             MessageBox.Show("恭喜你，文件分割完成!", "分割", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -89,7 +94,10 @@ namespace Studyzy.IMEWLConverter
                     return;
                 }
             }
-            string[] list = str.Split(new[] {splitLineChar}, StringSplitOptions.RemoveEmptyEntries);
+            string[] list = str.Split(
+                new[] { splitLineChar },
+                StringSplitOptions.RemoveEmptyEntries
+            );
 
             var fileContent = new StringBuilder();
             int fileIndex = 1;
@@ -97,7 +105,7 @@ namespace Studyzy.IMEWLConverter
             {
                 fileContent.Append(list[i]);
                 fileContent.Append(splitLineChar);
-                if ((i+1)%maxLine == 0 || i == list.Length - 1)
+                if ((i + 1) % maxLine == 0 || i == list.Length - 1)
                 {
                     if (i != 0)
                     {
@@ -114,16 +122,14 @@ namespace Studyzy.IMEWLConverter
         {
             Encoding encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
 
-
             int fileIndex = 1;
-            int size = (maxSize - 10)*1024; //10K的Buffer
+            int size = (maxSize - 10) * 1024; //10K的Buffer
             var inFile = new FileStream(txbFilePath.Text, FileMode.Open, FileAccess.Read);
 
             do
             {
                 string newFile = GetWriteFilePath(fileIndex++);
-                var outFile = new FileStream(newFile, FileMode.OpenOrCreate,
-                    FileAccess.Write);
+                var outFile = new FileStream(newFile, FileMode.OpenOrCreate, FileAccess.Write);
                 if (fileIndex != 2) //不是第一个文件，那么就要写文件头
                 {
                     FileOperationHelper.WriteFileHeader(outFile, encoding);
@@ -145,7 +151,7 @@ namespace Studyzy.IMEWLConverter
                         }
                         if (b != -1) //文件已经读完
                         {
-                            outFile.WriteByte((byte) b);
+                            outFile.WriteByte((byte)b);
                         }
                         else
                         {
@@ -176,7 +182,6 @@ namespace Studyzy.IMEWLConverter
                 }
             } while (true);
         }
-
 
         private void SplitFileByLength(int length)
         {
@@ -211,8 +216,11 @@ namespace Studyzy.IMEWLConverter
         private string GetWriteFilePath(int i)
         {
             string path = txbFilePath.Text;
-            return Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(path) + i.ToString("00") +
-                   Path.GetExtension(path);
+            return Path.GetDirectoryName(path)
+                + "\\"
+                + Path.GetFileNameWithoutExtension(path)
+                + i.ToString("00")
+                + Path.GetExtension(path);
         }
     }
 }

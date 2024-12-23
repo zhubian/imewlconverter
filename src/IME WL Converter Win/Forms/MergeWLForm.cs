@@ -30,7 +30,7 @@ namespace Studyzy.IMEWLConverter
             InitializeComponent();
         }
 
-        //private Dictionary<string,List<string>> main 
+        //private Dictionary<string,List<string>> main
         private void btnSelectMainWLFile_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -73,19 +73,28 @@ namespace Studyzy.IMEWLConverter
             string result = Dict2String(mainDict);
             richTextBox1.Text = result;
             if (
-                MessageBox.Show("是否将合并的" + mainDict.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
+                MessageBox.Show(
+                    "是否将合并的" + mainDict.Count + "条词库保存到本地硬盘上？",
+                    "是否保存",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                ) == DialogResult.Yes
+            )
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    FileOperationHelper.WriteFile(saveFileDialog1.FileName, Encoding.Unicode, result);
+                    FileOperationHelper.WriteFile(
+                        saveFileDialog1.FileName,
+                        Encoding.Unicode,
+                        result
+                    );
                 }
             }
         }
 
-        private Dictionary<string, List<string>> ConvertTxt2Dictionary(string txt)
+        private static Dictionary<string, List<string>> ConvertTxt2Dictionary(string txt)
         {
-            string[] lines = txt.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = txt.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
             var mainDict = new Dictionary<string, List<string>>();
             foreach (string line in lines)
             {
@@ -93,7 +102,7 @@ namespace Studyzy.IMEWLConverter
                 string key = array[0];
                 if (!mainDict.ContainsKey(key))
                 {
-                    mainDict.Add(key, new List<string>());
+                    mainDict.Add(key, []);
                 }
                 for (int i = 1; i < array.Length; i++)
                 {
@@ -104,17 +113,19 @@ namespace Studyzy.IMEWLConverter
             return mainDict;
         }
 
-        private void Merge2Dict(Dictionary<string, List<string>> d1, Dictionary<string, List<string>> d2)
+        private static void Merge2Dict(
+            Dictionary<string, List<string>> d1,
+            Dictionary<string, List<string>> d2
+        )
         {
             foreach (var pair in d2)
             {
-                if (!d1.ContainsKey(pair.Key))
+                if (!d1.TryGetValue(pair.Key, out List<string> v))
                 {
                     d1.Add(pair.Key, pair.Value);
                 }
                 else
                 {
-                    List<string> v = d1[pair.Key];
                     foreach (string word in pair.Value)
                     {
                         if (!v.Contains(word))
@@ -131,14 +142,17 @@ namespace Studyzy.IMEWLConverter
             richTextBox1.AppendText(message + "\r\n");
         }
 
-        private string Dict2String(Dictionary<string, List<string>> dictionary)
+        private static string Dict2String(Dictionary<string, List<string>> dictionary)
         {
             var sb = new StringBuilder();
             foreach (var pair in dictionary)
             {
                 sb.Append(pair.Key);
-                sb.Append(" ");
-                sb.Append(string.Join(" ", pair.Value.ToArray()));
+                if (pair.Value != null && pair.Value.Count > 0)
+                {
+                    sb.Append(' ');
+                    sb.Append(string.Join(" ", [.. pair.Value]));
+                }
                 sb.Append("\r\n");
             }
             return sb.ToString();
@@ -146,7 +160,8 @@ namespace Studyzy.IMEWLConverter
 
         private void MergeWLForm_Load(object sender, EventArgs e)
         {
-            richTextBox1.Text = "请保证主词库和附加词库中每一行的格式为：\r\n编码 词1 词2 词3\r\n不要保留任何注释备注等。\r\n主词库只可选择一个，附加词库可多选";
+            richTextBox1.Text =
+                "请保证主词库和附加词库中每一行的格式为：\r\n编码 词1 词2 词3\r\n不要保留任何注释备注等。\r\n主词库只可选择一个，附加词库可多选";
         }
     }
 }

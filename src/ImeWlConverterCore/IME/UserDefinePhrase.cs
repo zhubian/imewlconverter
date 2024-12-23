@@ -40,16 +40,14 @@ namespace Studyzy.IMEWLConverter.IME
         /// </summary>
         public string PhraseFormat { get; set; }
 
-        public override CodeType CodeType
-        {
-            get;set;
-        }
+        public override CodeType CodeType { get; set; }
+
         /// <summary>
         /// 拼音编码时，是否只使用拼音首字母
         /// </summary>
         public bool IsShortCode { get; set; }
 
-        public Encoding Encoding  => Encoding.UTF8;
+        public Encoding Encoding => Encoding.UTF8;
 
         public IList<string> Export(WordLibraryList wlList)
         {
@@ -73,7 +71,12 @@ namespace Studyzy.IMEWLConverter.IME
                     codes.Add(new List<string>() { c[0][0].ToString() });
                 }
             }
-            return string.Format(PhraseFormat, wl.Word, CollectionHelper.Descartes(codes)[0], wl.Rank==0?DefaultRank:wl.Rank);
+            return string.Format(
+                PhraseFormat,
+                wl.Word,
+                CollectionHelper.Descartes(codes)[0],
+                wl.Rank == 0 ? DefaultRank : wl.Rank
+            );
         }
 
         public WordLibraryList ImportText(string text)

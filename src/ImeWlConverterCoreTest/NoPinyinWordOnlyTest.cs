@@ -55,7 +55,7 @@ namespace Studyzy.IMEWLConverter.Test
         [Test]
         public void TestImport()
         {
-            WordLibraryList wl = ((IWordLibraryTextImport) importer).ImportText(StringData);
+            WordLibraryList wl = ((IWordLibraryTextImport)importer).ImportText(StringData);
             Assert.AreEqual(wl.Count, 10);
         }
 

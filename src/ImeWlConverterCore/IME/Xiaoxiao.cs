@@ -15,7 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -30,11 +29,16 @@ namespace Studyzy.IMEWLConverter.IME
     /// 拼音（无分隔符）+空格+词语1+空格+词语2...
     /// </summary>
     [ComboBoxShow(ConstantString.XIAOXIAO, ConstantString.XIAOXIAO_C, 100)]
-    public class Xiaoxiao : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport, IMultiCodeType
+    public class Xiaoxiao
+        : BaseTextImport,
+            IWordLibraryExport,
+            IWordLibraryTextImport,
+            IMultiCodeType
     {
         #region IWordLibraryExport 成员
 
         private IWordCodeGenerater codeGenerater;
+
         //private XiaoxiaoConfigForm form;
         private IWordCodeGenerater CodeGenerater
         {
@@ -78,7 +82,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
             else
             {
-               var code= CodeGenerater.GetCodeOfString(wl.Word);
+                var code = CodeGenerater.GetCodeOfString(wl.Word);
                 sb.Append(code.ToCodeString());
             }
             sb.Append(" ");
@@ -112,20 +116,16 @@ namespace Studyzy.IMEWLConverter.IME
                     var list = codes.ToCodeString();
                     foreach (var code in list)
                     {
-                        
-                  
-                            if (xiaoxiaoDic.ContainsKey(code))
-                            {
-                                xiaoxiaoDic[code] += " " + value;
-                            }
-                            else
-                            {
-                                xiaoxiaoDic.Add(code, value);
-                            }
-                      
+                        if (xiaoxiaoDic.ContainsKey(code))
+                        {
+                            xiaoxiaoDic[code] += " " + value;
+                        }
+                        else
+                        {
+                            xiaoxiaoDic.Add(code, value);
+                        }
                     }
                 }
-
 
                 if (xiaoxiaoDic.ContainsKey(key))
                 {
@@ -146,48 +146,49 @@ namespace Studyzy.IMEWLConverter.IME
 
         #endregion
 
-//      private string GetFileHeader()
-//      {
-//          if (CodeType == CodeType.Pinyin)
-//          {
-//              return @"#名称：深蓝词库转换词库
-//#作者：深蓝
-//name=拼音
-//key=abcdefghijklmnopqrstuvwxyz
-//len=63
-//wildcard=?
-//pinyin=1
-//split='
-//hint=0
-//user=pinyin.usr
-//assist=mb/yong.txt 2
-//code_a1=p..
-//[DATA]
-//";
-//          }
-//          if (CodeType == CodeType.Wubi)
-//          {
-//              return @"#名称：深蓝词库转换词库
-//#作者：深蓝
-//name=五笔
-//key=abcdefghijklmnopqrstuvwxyz
-//len=4
-//assist=z mb/pinyin.txt
-//wildcard=z
-//dwf=1
-//commit=0 0 0
-//auto_clear=4
-//code_e2=p11+p12+p21+p22
-//code_e3=p11+p21+p31+p32
-//code_a4=p11+p21+p31+n11
-//[data]
-//";
-//          }
-//          return "";
+        //      private string GetFileHeader()
+        //      {
+        //          if (CodeType == CodeType.Pinyin)
+        //          {
+        //              return @"#名称：深蓝词库转换词库
+        //#作者：深蓝
+        //name=拼音
+        //key=abcdefghijklmnopqrstuvwxyz
+        //len=63
+        //wildcard=?
+        //pinyin=1
+        //split='
+        //hint=0
+        //user=pinyin.usr
+        //assist=mb/yong.txt 2
+        //code_a1=p..
+        //[DATA]
+        //";
+        //          }
+        //          if (CodeType == CodeType.Wubi)
+        //          {
+        //              return @"#名称：深蓝词库转换词库
+        //#作者：深蓝
+        //name=五笔
+        //key=abcdefghijklmnopqrstuvwxyz
+        //len=4
+        //assist=z mb/pinyin.txt
+        //wildcard=z
+        //dwf=1
+        //commit=0 0 0
+        //auto_clear=4
+        //code_e2=p11+p12+p21+p22
+        //code_e3=p11+p21+p31+p32
+        //code_a4=p11+p21+p31+n11
+        //[data]
+        //";
+        //          }
+        //          return "";
 
-//      }
+        //      }
 
         private readonly Regex regex = new Regex(@"[^\s#]+( [\u4E00-\u9FA5]+)+");
+
         protected override bool IsContent(string line)
         {
             return regex.IsMatch(line);
@@ -210,7 +211,5 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return list;
         }
-
-      
     }
 }

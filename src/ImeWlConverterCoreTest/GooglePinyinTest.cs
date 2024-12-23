@@ -45,7 +45,9 @@ namespace Studyzy.IMEWLConverter.Test
         public void TestExport()
         {
             var txt = exporter.Export(WlListData)[0];
-            Assert.IsTrue(txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Length == 2);
+            Assert.IsTrue(
+                txt.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Length == 2
+            );
         }
 
         [Test]
@@ -58,7 +60,7 @@ namespace Studyzy.IMEWLConverter.Test
         [Test]
         public void TestImport()
         {
-            WordLibraryList list = ((IWordLibraryTextImport) importer).ImportText(StringData);
+            WordLibraryList list = ((IWordLibraryTextImport)importer).ImportText(StringData);
             Assert.IsNotNull(list);
             Assert.AreEqual(list.Count, 10);
         }

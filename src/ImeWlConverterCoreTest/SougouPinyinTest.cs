@@ -37,8 +37,6 @@ namespace Studyzy.IMEWLConverter.Test
         }
 
         [Test]
-        public void TestImport()
-        {
-        }
+        public void TestImport() { }
     }
 }

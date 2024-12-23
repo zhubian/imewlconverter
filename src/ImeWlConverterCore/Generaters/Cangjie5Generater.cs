@@ -24,49 +24,49 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-    public class Cangjie5Generater :BaseCodeGenerater, IWordCodeGenerater
+    public class Cangjie5Generater : BaseCodeGenerater, IWordCodeGenerater
     {
         #region IWordCodeGenerater Members
 
         private static readonly Dictionary<char, string> OneCodeChar = new Dictionary<char, string>
         {
-            {'日', "a"},
-            {'月', "b"},
-            {'金', "c"},
-            {'木', "d"},
-            {'水', "e"},
-            {'火', "f"},
-            {'土', "g"},
-            {'竹', "h"},
-            {'戈', "i"},
-            {'十', "j"},
-            {'大', "k"},
-            {'中', "l"},
-            {'一', "m"},
-            {'弓', "n"},
-            {'人', "o"},
-            {'心', "p"},
-            {'手', "q"},
-            {'口', "r"},
-            {'尸', "s"},
-            {'廿', "t"},
-            {'山', "u"},
-            {'女', "v"},
-            {'田', "w"},
-            {'卜', "y"},
-            {'曰', "a"},
-            {'八', "c"},
-            {'儿', "c"},
-            {'又', "e"},
-            {'小', "f"},
-            {'士', "g"},
-            {'广', "i"},
-            {'厂', "m"},
-            {'工', "m"},
-            {'乙', "n"},
-            {'入', "o"},
-            {'匕', "p"},
-            {'七', "p"},
+            { '日', "a" },
+            { '月', "b" },
+            { '金', "c" },
+            { '木', "d" },
+            { '水', "e" },
+            { '火', "f" },
+            { '土', "g" },
+            { '竹', "h" },
+            { '戈', "i" },
+            { '十', "j" },
+            { '大', "k" },
+            { '中', "l" },
+            { '一', "m" },
+            { '弓', "n" },
+            { '人', "o" },
+            { '心', "p" },
+            { '手', "q" },
+            { '口', "r" },
+            { '尸', "s" },
+            { '廿', "t" },
+            { '山', "u" },
+            { '女', "v" },
+            { '田', "w" },
+            { '卜', "y" },
+            { '曰', "a" },
+            { '八', "c" },
+            { '儿', "c" },
+            { '又', "e" },
+            { '小', "f" },
+            { '士', "g" },
+            { '广', "i" },
+            { '厂', "m" },
+            { '工', "m" },
+            { '乙', "n" },
+            { '入', "o" },
+            { '匕', "p" },
+            { '七', "p" },
         };
 
         private Dictionary<char, IList<Cangjie>> dictionary;
@@ -80,7 +80,12 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string txt = Helpers.DictionaryHelper.GetResourceContent("Cangjie5.txt");
                     dictionary = new Dictionary<char, IList<Cangjie>>();
 
-                    foreach (string line in txt.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (
+                        string line in txt.Split(
+                            new[] { '\r', '\n' },
+                            StringSplitOptions.RemoveEmptyEntries
+                        )
+                    )
                     {
                         string[] arr = line.Split('\t');
                         try
@@ -98,7 +103,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                             }
                             else
                             {
-                                dictionary.Add(word, new List<Cangjie> {cj});
+                                dictionary.Add(word, new List<Cangjie> { cj });
                             }
                         }
                         catch (Exception ex)
@@ -116,10 +121,8 @@ namespace Studyzy.IMEWLConverter.Generaters
             get { return false; }
         }
 
-
         public override Code GetCodeOfString(string str)
         {
-            
             foreach (char c in str)
             {
                 if (!Dictionary.ContainsKey(c))
@@ -135,7 +138,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                     c.Add(cangjy.Code);
                 }
 
-                return new Code(c,false);
+                return new Code(c, false);
             }
             IList<IList<string>> codes = new List<IList<string>>();
             var sb = new StringBuilder();
@@ -184,7 +187,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
             IList<string> result = CollectionHelper.Descartes(codes);
 
-            return new Code(result,false);
+            return new Code(result, false);
         }
 
         public IList<string> GetAllCodesOfChar(char str)
@@ -197,7 +200,6 @@ namespace Studyzy.IMEWLConverter.Generaters
             return result;
         }
 
-
         public bool Is1CharMutiCode
         {
             get { return true; }
@@ -209,12 +211,11 @@ namespace Studyzy.IMEWLConverter.Generaters
             return arr[0][arr[0].Length - 1];
         }
 
-
         private IList<string> GetLastCode(char c)
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string> {OneCodeChar[c]};
+                return new List<string> { OneCodeChar[c] };
             }
             IList<Cangjie> x = Dictionary[c];
             var result = new List<string>();
@@ -245,7 +246,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string> {OneCodeChar[c]};
+                return new List<string> { OneCodeChar[c] };
             }
             IList<Cangjie> x = Dictionary[c];
             var result = new List<string>();
@@ -264,7 +265,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string> {OneCodeChar[c]};
+                return new List<string> { OneCodeChar[c] };
             }
             IList<Cangjie> x = Dictionary[c];
             var result = new List<string>();
@@ -293,7 +294,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string> {OneCodeChar[c]};
+                return new List<string> { OneCodeChar[c] };
             }
             IList<Cangjie> x = Dictionary[c];
             var result = new List<string>();
@@ -327,7 +328,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    throw ex;
+                    throw;
                 }
             }
             return result;

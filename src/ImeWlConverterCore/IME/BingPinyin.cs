@@ -15,11 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -39,7 +37,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-
         public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
@@ -50,8 +47,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return new List<string>() { sb.ToString() };
         }
-
-     
 
         #endregion
 
@@ -75,6 +70,7 @@ namespace Studyzy.IMEWLConverter.IME
             wll.Add(wl);
             return wll;
         }
+
         public override Encoding Encoding
         {
             get { return Encoding.Unicode; }

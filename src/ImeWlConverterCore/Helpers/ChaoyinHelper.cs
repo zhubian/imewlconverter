@@ -101,7 +101,9 @@ namespace Studyzy.IMEWLConverter.Helpers
                 {
                     pinyinCodeMapping = new Dictionary<string, string>();
                     //todo
-                    var lines = DictionaryHelper.GetResourceContent("ChaoyinCodeMapping.txt").Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    var lines = DictionaryHelper
+                        .GetResourceContent("ChaoyinCodeMapping.txt")
+                        .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var line in lines)
                     {
                         var array = line.Split('\t');
@@ -115,8 +117,6 @@ namespace Studyzy.IMEWLConverter.Helpers
                 return pinyinCodeMapping;
             }
         }
-
-   
 
         /// <summary>
         /// 获得一个拼音对应的超音编码
@@ -134,7 +134,6 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 yindiao = Convert.ToInt32(pinyin[pinyin.Length - 1].ToString());
                 pinyin = pinyin.Substring(0, pinyin.Length - 1);
-              
             }
 
             if (!PinyinCodeMapping.ContainsKey(pinyin))
@@ -146,6 +145,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             Debug.WriteLine("Pinyin:" + pinyin + ",Chaoyin:" + zy);
             return zy;
         }
+
         /// <summary>
         /// 获得一个词语的超音编码
         /// </summary>
@@ -191,9 +191,9 @@ namespace Studyzy.IMEWLConverter.Helpers
                     result.Append(";");
                 }
             }
-             else if (pinyins.Count == 4)
-             {
-                 /*1、末字为声母本身发音时
+            else if (pinyins.Count == 4)
+            {
+                /*1、末字为声母本身发音时
 声+声+声+（末字声母双击）（五码）
 例如：实事求是（kkmkk）生日快乐（kcess）
 依次录入首字、次字、第三字（首编码），末字声母双击
@@ -201,19 +201,19 @@ namespace Studyzy.IMEWLConverter.Helpers
 声+声+声+（声韵）（五码）
 例如：工作顺利（hyksf）科学技术（eudkv）
 依次录入首字、次字、第三字（首编码）末字（全码）*/
-                 result.Append(PinyinCodeMapping[pinyins[0]][0]);
-                 result.Append(PinyinCodeMapping[pinyins[1]][0]);
-                 result.Append(PinyinCodeMapping[pinyins[2]][0]);
-                 if (ShenmuY.Contains(pinyins[3]))
-                 {
-                     result.Append(PinyinCodeMapping[pinyins[3]][0]);
-                     result.Append(PinyinCodeMapping[pinyins[3]][0]);
-                 }
-                 else
-                 {
-                     result.Append(PinyinCodeMapping[pinyins[3]]);
-                 }
-             }
+                result.Append(PinyinCodeMapping[pinyins[0]][0]);
+                result.Append(PinyinCodeMapping[pinyins[1]][0]);
+                result.Append(PinyinCodeMapping[pinyins[2]][0]);
+                if (ShenmuY.Contains(pinyins[3]))
+                {
+                    result.Append(PinyinCodeMapping[pinyins[3]][0]);
+                    result.Append(PinyinCodeMapping[pinyins[3]][0]);
+                }
+                else
+                {
+                    result.Append(PinyinCodeMapping[pinyins[3]]);
+                }
+            }
             else if (pinyins.Count == 5)
             {
                 //声+声+声+声+声（五码）
@@ -222,7 +222,6 @@ namespace Studyzy.IMEWLConverter.Helpers
                 result.Append(PinyinCodeMapping[pinyins[2]][0]);
                 result.Append(PinyinCodeMapping[pinyins[3]][0]);
                 result.Append(PinyinCodeMapping[pinyins[4]][0]);
-                
             }
             else
             {
@@ -231,7 +230,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 result.Append(PinyinCodeMapping[pinyins[1]][0]);
                 result.Append(PinyinCodeMapping[pinyins[2]][0]);
                 result.Append(PinyinCodeMapping[pinyins[3]][0]);
-                result.Append(PinyinCodeMapping[pinyins[pinyins.Count-1]][0]);
+                result.Append(PinyinCodeMapping[pinyins[pinyins.Count - 1]][0]);
             }
 
             return result.ToString();
@@ -266,11 +265,10 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return 3;
                 case 'p':
                     return 4;
-                
+
                 default:
                     return 1;
             }
         }
-
     }
 }

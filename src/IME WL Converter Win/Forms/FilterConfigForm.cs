@@ -123,10 +123,9 @@ namespace Studyzy.IMEWLConverter
         {
             if (cbxKeepNumber_.Checked)
             {
-            cbxKeepNumber.Checked = false;
-            cbxChsNumber.Checked = false;
+                cbxKeepNumber.Checked = false;
+                cbxChsNumber.Checked = false;
             }
-
         }
 
         private void cbxKeepEnglish_CheckedChanged(object sender, EventArgs e)
@@ -135,16 +134,15 @@ namespace Studyzy.IMEWLConverter
             {
                 cbxKeepEnglish_.Checked = false;
             }
-
         }
 
         private void cbxKeepEnglish__CheckedChanged(object sender, EventArgs e)
         {
-            if (cbxKeepEnglish_.Checked) {
+            if (cbxKeepEnglish_.Checked)
+            {
                 cbxKeepEnglish.Checked = false;
                 cbxPrefixEnglish.Checked = false;
             }
-
         }
 
         private void cbxPrefixEnglish_CheckedChanged(object sender, EventArgs e)

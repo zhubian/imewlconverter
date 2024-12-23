@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -34,14 +33,13 @@ namespace Studyzy.IMEWLConverter.IME
         //public bool OnlySinglePinyin { get; set; }
 
         public WordLibraryList Import(string path)
-        {           
+        {
             return ReadQcel(path);
         }
 
         #endregion
 
         private Dictionary<int, string> pyDic = new Dictionary<int, string>();
-        private static char[] a2zchar => "abcdefghijklmnopqrstuvwxyz".ToCharArray();
 
         #region IWordLibraryImport Members
 
@@ -56,10 +54,12 @@ namespace Studyzy.IMEWLConverter.IME
         {
             throw new Exception("Qcel格式是二进制文件，不支持流转换");
         }
+
         public static Dictionary<string, string> ReadQcelInfo(string path)
         {
             return SougouPinyinScel.ReadScelInfo(path);
         }
+
         private WordLibraryList ReadQcel(string path)
         {
             pyDic = new Dictionary<int, string>();
@@ -118,7 +118,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
             Debug.WriteLine(s.ToString());
 
-
             //fs.Position = 0x2628;
             //fs.Position = hzPosition;
 
@@ -127,13 +126,14 @@ namespace Studyzy.IMEWLConverter.IME
                 try
                 {
                     var data = ReadAPinyinWord(fs);
-                    if (data is null) break;
-                    
+                    if (data is null)
+                        break;
+
                     pyAndWord.AddRange(data);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    throw;
                 }
                 if (CurrentStatus == CountWord || fs.Length == fs.Position) //判断文件结束
                 {
@@ -167,11 +167,11 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 int key = str[i * 2] + str[i * 2 + 1] * 256;
                 //Debug.Assert(key < pyDic.Count);
-                if(key < pyDic.Count)
+                if (key < pyDic.Count)
                     wordPY.Add(pyDic[key]);
                 else
-                    wordPY.Add(a2zchar[key - pyDic.Count].ToString());
-                    //return null; // 用于调试，忽略编码异常的记录，不中止运行
+                    wordPY.Add(((char)(key - pyDic.Count + 97)).ToString());
+                //return null; // 用于调试，忽略编码异常的记录，不中止运行
             }
             //wordPY = wordPY.Remove(wordPY.Length - 1); //移除最后一个单引号
             //接下来读词语
@@ -186,7 +186,14 @@ namespace Studyzy.IMEWLConverter.IME
                 string word = Encoding.Unicode.GetString(str);
                 short unknown1 = BinFileHelper.ReadInt16(fs); //全部是10,肯定不是词频，具体是什么不知道
                 int unknown2 = BinFileHelper.ReadInt32(fs); //每个字对应的数字不一样，不知道是不是词频
-                pyAndWord.Add(new WordLibrary { Word = word, PinYin = wordPY.ToArray(), Rank = DefaultRank });
+                pyAndWord.Add(
+                    new WordLibrary
+                    {
+                        Word = word,
+                        PinYin = wordPY.ToArray(),
+                        Rank = DefaultRank
+                    }
+                );
                 CurrentStatus++;
                 //接下来10个字节什么意思呢？暂时先忽略了
                 var temp = new byte[6];

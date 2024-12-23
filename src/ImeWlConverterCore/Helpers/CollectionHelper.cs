@@ -47,7 +47,6 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             var sb = new StringBuilder();
 
-
             if (list == null)
             {
                 return "";
@@ -86,7 +85,12 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// </summary>
         /// <param name="codes"></param>
         /// <returns></returns>
-        private static string Descartes(IList<IList<string>> list, int count, IList<string> result, string data)
+        private static string Descartes(
+            IList<IList<string>> list,
+            int count,
+            IList<string> result,
+            string data
+        )
         {
             string temp = data;
             //获取当前数组
@@ -146,17 +150,22 @@ namespace Studyzy.IMEWLConverter.Helpers
                 var line = new string[codes.Count];
                 for (int j = 0; j < codes.Count; j++)
                 {
-                    line[j] = codes[j][i%codes[j].Count];
+                    line[j] = codes[j][i % codes[j].Count];
                 }
                 result.Add(String.Join(split, line));
             }
             return result;
         }
 
-        public static IList<string> CartesianProduct(IList<IList<string>> codes, String split, BuildType buildType)
+        public static IList<string> CartesianProduct(
+            IList<IList<string>> codes,
+            String split,
+            BuildType buildType
+        )
         {
             IList<string> list = CartesianProduct(codes, split);
-            if (buildType == BuildType.None) return list;
+            if (buildType == BuildType.None)
+                return list;
             var result = new List<string>();
             foreach (string line in list)
             {

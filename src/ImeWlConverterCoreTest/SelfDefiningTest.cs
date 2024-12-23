@@ -71,15 +71,21 @@ namespace Studyzy.IMEWLConverter.Test
                 CodeType = CodeType.Pinyin,
                 Sort = new List<int>() { 2, 1, 3 }
             };
-            WordLibrary wl = new WordLibrary() { Word = "深蓝", Rank = 123, CodeType = CodeType.Pinyin };
+            WordLibrary wl = new WordLibrary()
+            {
+                Word = "深蓝",
+                Rank = 123,
+                CodeType = CodeType.Pinyin
+            };
             wl.Codes = new Code();
-            wl.Codes.Add( new[] { "shen" });
-            wl.Codes.Add( new[] { "lan" });
+            wl.Codes.Add(new[] { "shen" });
+            wl.Codes.Add(new[] { "lan" });
             var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = parser;
             var str = selfDefining.ExportLine(wl);
             Assert.AreEqual(str, "深蓝|,shen,lan,|123");
         }
+
         [Test]
         public void TestGeneratePinyinThen2String()
         {
@@ -96,16 +102,22 @@ namespace Studyzy.IMEWLConverter.Test
                 Sort = new List<int>() { 2, 1, 3 }
             };
             WordLibraryList wll = new WordLibraryList();
-            WordLibrary wl = new WordLibrary() { Word = "深蓝", Rank = 123, CodeType = CodeType.UserDefine };
+            WordLibrary wl = new WordLibrary()
+            {
+                Word = "深蓝",
+                Rank = 123,
+                CodeType = CodeType.UserDefine
+            };
             wl.Codes = new Code();
             wl.Codes.Add(new[] { "sn" });
-            wl.Codes.Add( new[] { "ln" });
+            wl.Codes.Add(new[] { "ln" });
             wll.Add(wl);
             var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = parser;
             var str = selfDefining.Export(wll);
             Assert.AreEqual(str[0], "深蓝|~shen~lan~|123\r");
         }
+
         private WordLibrary WlData
         {
             get
@@ -119,16 +131,16 @@ namespace Studyzy.IMEWLConverter.Test
                 };
             }
         }
-       
+
         [Test]
         public void TestExportPinyinDifferentFormatWL()
         {
             var p = new ParsePattern();
-            p.Sort=new List<int>(){3,2,1};
+            p.Sort = new List<int>() { 3, 2, 1 };
             p.SplitString = "$";
             p.ContainRank = false;
             p.CodeSplitString = "_";
-            p.CodeSplitType= BuildType.None;
+            p.CodeSplitType = BuildType.None;
             p.IsPinyinFormat = true;
             p.CodeType = CodeType.Pinyin;
             var selfDefining = new SelfDefining();
@@ -139,6 +151,7 @@ namespace Studyzy.IMEWLConverter.Test
             Console.WriteLine(str1[0]);
             Assert.AreEqual(str1[0], "深蓝测试$shen_lan_ce_shi\r\n");
         }
+
         [Test]
         public void TestExportExtCodeWL()
         {
@@ -149,6 +162,7 @@ namespace Studyzy.IMEWLConverter.Test
             Debug.WriteLine(str);
             //Assert.That(str, Is.Not.Null.And.Not.Empty);
         }
+
         //[Test]
         //public void TestWLWithoutPinyinExportException()
         //{
@@ -160,13 +174,20 @@ namespace Studyzy.IMEWLConverter.Test
         [Test]
         public void TestExportExtCodeLots()
         {
-            string str="深蓝词库转换测试代码";
+            string str = "深蓝词库转换测试代码";
             var list = new WordLibraryList();
             var ts = "";
             foreach (var c in str)
             {
                 ts += c;
-                list.Add(new WordLibrary() {Rank = 10, IsEnglish = false, Word = ts});
+                list.Add(
+                    new WordLibrary()
+                    {
+                        Rank = 10,
+                        IsEnglish = false,
+                        Word = ts
+                    }
+                );
             }
 
             var selfDefining = new SelfDefining();
@@ -176,30 +197,31 @@ namespace Studyzy.IMEWLConverter.Test
             Debug.WriteLine(x);
             Assert.IsNotNull(str);
         }
+
         [Test]
         public void TestImportTxt()
         {
             string txt = "深藍 shen,lan 12345";
             var pp = new ParsePattern();
-            pp.Sort=new List<int>(){2,1,3};
+            pp.Sort = new List<int>() { 2, 1, 3 };
             pp.IsPinyinFormat = true;
             pp.CodeType = CodeType.Pinyin;
             pp.CodeSplitString = ",";
             pp.SplitString = " ";
-            pp.CodeSplitType= BuildType.None;
+            pp.CodeSplitType = BuildType.None;
             var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = pp;
-   
+
             var x = selfDefining.ImportLine(txt);
             Debug.WriteLine(x[0].ToString());
-            Assert.AreEqual(x[0].Word,"深藍");
+            Assert.AreEqual(x[0].Word, "深藍");
         }
-
 
         private ParsePattern InitPattern()
         {
-            ParsePattern pp=new ParsePattern();
-            pp.MutiWordCodeFormat = @"code_e2=p11+p12+p21+p22
+            ParsePattern pp = new ParsePattern();
+            pp.MutiWordCodeFormat =
+                @"code_e2=p11+p12+p21+p22
 code_e3=p11+p21+p31+p32
 code_a4=p11+p21+p31+n11";
             pp.IsPinyinFormat = false;
@@ -210,6 +232,5 @@ code_a4=p11+p21+p31+n11";
             pp.CodeType = CodeType.UserDefine;
             return pp;
         }
-     
     }
 }

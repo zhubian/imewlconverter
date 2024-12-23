@@ -16,9 +16,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.IME;
 

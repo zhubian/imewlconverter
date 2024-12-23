@@ -19,14 +19,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
     /// <summary>
     /// 根据提供的外部字典，格式，生成编码的类
     /// </summary>
-    public class SelfDefiningCodeGenerater :BaseCodeGenerater, IWordCodeGenerater
+    public class SelfDefiningCodeGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
         #region IWordCodeGenerater Members
 
@@ -60,7 +59,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         public string GetDefaultCodeOfChar(char str)
         {
             if (MappingDictionary != null && MappingDictionary.Count > 0)
-
             {
                 if (MappingDictionary.ContainsKey(str))
                 {
@@ -71,8 +69,6 @@ namespace Studyzy.IMEWLConverter.Generaters
             //return pinyinGenerater.GetDefaultCodeOfChar(str);
             return null;
         }
-
-
 
         /// <summary>
         ///     获得一个词的编码,如果MutiCode==True，那么返回的是一个词的多种编码方式
@@ -90,7 +86,10 @@ namespace Studyzy.IMEWLConverter.Generaters
             //一词一码，按组词规则生成
             var list = new List<string>();
             string result = "";
-            string[] arr = MutiWordCodeFormat.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] arr = MutiWordCodeFormat.Split(
+                new[] { '\r', '\n' },
+                StringSplitOptions.RemoveEmptyEntries
+            );
             var format = new Dictionary<string, string>();
 
             foreach (string line in arr)
@@ -108,7 +107,6 @@ namespace Studyzy.IMEWLConverter.Generaters
                 result = GetStringCode(str, f);
             }
             else //字符串很长
-
             {
                 string key = "";
                 for (int i = str.Length; i > 0; i--)
@@ -124,9 +122,8 @@ namespace Studyzy.IMEWLConverter.Generaters
                 result = GetStringCode(str, f);
             }
             list.Add(result);
-            return new Code(list,false);
+            return new Code(list, false);
         }
-
 
         public IList<string> GetAllCodesOfChar(char str)
         {
@@ -134,7 +131,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         private string GetStringCode(string str, string format)
-
         {
             string result = "";
             string[] flist = format.Split('+');
@@ -145,15 +141,12 @@ namespace Studyzy.IMEWLConverter.Generaters
                 char c = ' ';
                 if (pn == 'p')
                     c = str[pindex - 1];
-
                 else if (pn == 'n')
                     c = str[str.Length - pindex];
                 string pcode = GetDefaultCodeOfChar(c);
                 int cindex = Convert.ToInt32(s[2].ToString());
                 if (pcode.Length >= cindex)
-
                     result += pcode[cindex - 1];
-
                 else
                 {
                     Debug.WriteLine(str + " 编码生成错误");
@@ -173,6 +166,5 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         #endregion
-
     }
 }

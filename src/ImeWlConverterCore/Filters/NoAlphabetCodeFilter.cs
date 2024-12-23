@@ -26,6 +26,7 @@ namespace Studyzy.IMEWLConverter.Filters
     public class NoAlphabetCodeFilter : ISingleFilter
     {
         public bool ReplaceAfterCode => false;
+
         #region ISingleFilter Members
 
         //private readonly Regex regex = new Regex(@"\s");
@@ -33,11 +34,11 @@ namespace Studyzy.IMEWLConverter.Filters
         public bool IsKeep(WordLibrary wl)
         {
             //return wl.Word.IndexOf(' ') < 0;
-            foreach(var code in wl.Codes)
+            foreach (var code in wl.Codes)
             {
-                foreach(var c1 in code)
+                foreach (var c1 in code)
                 {
-                    foreach(var c in c1)
+                    foreach (var c in c1)
                     {
                         if (c < 'a' || c > 'z')
                         {
@@ -50,7 +51,5 @@ namespace Studyzy.IMEWLConverter.Filters
         }
 
         #endregion
-
-
     }
 }

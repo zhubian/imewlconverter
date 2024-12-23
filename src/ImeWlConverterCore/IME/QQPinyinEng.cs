@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -35,7 +34,6 @@ namespace Studyzy.IMEWLConverter.IME
         {
             return wl.Word + "," + wl.Rank;
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {
@@ -71,11 +69,10 @@ namespace Studyzy.IMEWLConverter.IME
             wl.Word = word;
             wl.Rank = count;
             wl.CodeType = this.CodeType;
-            wl.PinYin = new string[] {};
+            wl.PinYin = new string[] { };
             var wll = new WordLibraryList();
             wll.Add(wl);
             return wll;
         }
-
     }
 }

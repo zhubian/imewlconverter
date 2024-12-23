@@ -15,16 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -34,19 +27,28 @@ namespace Studyzy.IMEWLConverter
         {
             InitializeComponent();
         }
+
         private static PinyinType pinyinType;
         private static CodeType codeType;
-        public PinyinType SelectedPinyinType { get { return pinyinType; } }
-        public CodeType SelectedCodeType { get { return codeType; } }
+        public PinyinType SelectedPinyinType
+        {
+            get { return pinyinType; }
+        }
+        public CodeType SelectedCodeType
+        {
+            get { return codeType; }
+        }
+
         private void BtnOK_Click(object sender, EventArgs e)
         {
             codeType = CodeType.Pinyin;
             switch (cbxPinyinType.Text)
             {
-                case "全拼":pinyinType = PinyinType.FullPinyin;
+                case "全拼":
+                    pinyinType = PinyinType.FullPinyin;
                     break;
                 case "微软双拼":
-                    pinyinType = PinyinType.MsShuangpin; 
+                    pinyinType = PinyinType.MsShuangpin;
                     break;
                 case "小鹤双拼":
                     pinyinType = PinyinType.XiaoheShuangpin;
@@ -72,9 +74,12 @@ namespace Studyzy.IMEWLConverter
                 case "紫光拼音":
                     pinyinType = PinyinType.ZiguangShuangpin;
                     break;
-                default: pinyinType = PinyinType.FullPinyin; codeType = CodeType.UserDefinePhrase; break;
+                default:
+                    pinyinType = PinyinType.FullPinyin;
+                    codeType = CodeType.UserDefinePhrase;
+                    break;
             }
-            this.DialogResult= DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
         }
     }
 }

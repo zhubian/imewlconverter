@@ -15,7 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
 using System.IO;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
@@ -28,7 +27,11 @@ namespace Studyzy.IMEWLConverter.Test
         /// 深蓝测试
         /// </summary>
         protected WordLibrary WlData = new WordLibrary
-            {Rank = 10, PinYin = new[] {"shen", "lan", "ce", "shi"}, Word = "深蓝测试"};
+        {
+            Rank = 10,
+            PinYin = new[] { "shen", "lan", "ce", "shi" },
+            Word = "深蓝测试"
+        };
 
         protected IWordLibraryExport exporter;
         protected IWordLibraryImport importer;
@@ -43,8 +46,12 @@ namespace Studyzy.IMEWLConverter.Test
             get
             {
                 var wordLibrary = new WordLibrary
-                    {Rank = 80, PinYin = new[] {"ci", "ku", "zhuan", "huan"}, Word = "词库转换"};
-                return new WordLibraryList {WlData, wordLibrary};
+                {
+                    Rank = 80,
+                    PinYin = new[] { "ci", "ku", "zhuan", "huan" },
+                    Word = "词库转换"
+                };
+                return new WordLibraryList { WlData, wordLibrary };
             }
         }
 

@@ -26,9 +26,12 @@ namespace Studyzy.IMEWLConverter.Filters
     public class EnglishPunctuationFilter : ISingleFilter, IReplaceFilter
     {
         public bool ReplaceAfterCode => false;
+
         #region ISingleFilter Members
 
-        private static readonly Regex regex = new Regex("[-,~.?:;'\"" + @"!`\^]|(-{2})|(/.{3})|(/(/))|(/[/])|({})");
+        private static readonly Regex regex = new Regex(
+            "[-,~.?:;'\"" + @"!`\^]|(-{2})|(/.{3})|(/(/))|(/[/])|({})"
+        );
 
         public void Replace(WordLibrary wl)
         {
